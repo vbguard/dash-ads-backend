@@ -1,21 +1,19 @@
-const router = require("express").Router();
-const passport = require("passport");
+const router = require('express').Router();
+const passport = require('passport');
 
-const authRouter = require("./auth.router");
-const goalsRouter = require("./goals.router");
-const tasksRouter = require("./tasks.router");
-const userRouter = require("./user.router");
-const defaultTasksRouter = require("./defaultTasks.router");
+const authRouter = require('./auth.router');
+const assRouter = require('./ads.router');
+const userRouter = require('./user.router');
+const { getAllAds } = require('../controllers/ads');
 
-const passportCheck = passport.authenticate("jwt", {
-  session: false
+const passportCheck = passport.authenticate('jwt', {
+	session: false,
 });
 
 router
-  .use("/auth", authRouter)
-  .use("/goals", passportCheck, goalsRouter)
-  .use("/tasks", passportCheck, tasksRouter)
-  .use("/user", userRouter)
-  .use("/defaultTasks", defaultTasksRouter);
+	.use('/auth', authRouter)
+	.use('/ads', passportCheck, assRouter)
+	.use('/user', userRouter)
+	.get('/ads/all', getAllAds);
 
 module.exports = router;

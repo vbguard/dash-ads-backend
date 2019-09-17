@@ -3,7 +3,7 @@ const User = require('../models/user.model');
 const config = require('../config/config');
 
 // const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const FacebookStrategy = require('passport-facebook').Strategy;
+// const FacebookStrategy = require('passport-facebook').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy,
 	ExtractJwt = require('passport-jwt').ExtractJwt;
 
@@ -63,39 +63,15 @@ module.exports = function(passport) {
 							if (isMatch && !err)
 								User.populate(user, [
 									{
-										path: 'goals',
-										model: 'Goals',
+										path: 'ads',
+										model: 'Ads',
 										select: {
 											userId: 0,
 											__v: 0,
-											updatedAt: 0,
-										},
-									},
-									{
-										path: 'tasks',
-										model: 'Tasks',
-										select: {
-											userId: 0,
-											__v: 0,
-											updatedAt: 0,
 										},
 									},
 								])
 									.then(result => {
-										// const userData = {
-										//   userData: {
-										//     name: result.name,
-										//     age: result.age,
-										//     email: result.email,
-										//     isChild: result.isChild,
-										//     scores: result.scores,
-										//     avatar: result.avatar
-										//   },
-										//   goals: result.goals,
-										//   tasks: result.tasks,
-										//   childs: result.childs,
-										//   token
-										// };
 										const userData = result.getPublicFields();
 										return cb(null, userData, {
 											message: 'Logged In Successfully',
@@ -129,24 +105,23 @@ module.exports = function(passport) {
 	//   )
 	// );
 
-	passport.use(
-		new FacebookStrategy(
-			{
-				clientID: config.FACEBOOK_APP_ID,
-				clientSecret: config.FACEBOOK_APP_SECRET,
-				callbackURL: config.FACEBOOK_CB_URL,
-			},
-			(accessToken, refreshToken, profile, cb) => {
-				User.findOrCreate(
-					{
-						facebookId: profile.id,
-						email: profile.email,
-					},
-					(err, user) => cb(err, user),
-				);
-			},
-		),
-	);
+	// passport.use(
+	// 	new FacebookStrategy(
+	// 		{
+	// 			clientID: config.FACEBOOK_APP_ID,
+	// 			clientSecret: config.FACEBOOK_APP_SECRET,
+	// 			callbackURL: config.FACEBOOK_CB_URL,
+	// 		},
+	// 		(accessToken, refreshToken, profile, cb) => {
+	// 			User.findOrCreate(
+	// 				{
+	// 					email: profile.email,
+	// 				},
+	// 				(err, user) => cb(err, user),
+	// 			);
+	// 		},
+	// 	),
+	// );
 
 	passport.serializeUser((user, done) => {
 		done(null, user.id);

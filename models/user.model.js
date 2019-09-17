@@ -1,164 +1,133 @@
-const mongoose = require("mongoose"); // Erase if already required
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const mongoose = require('mongoose'); // Erase if already required
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-const config = require("../config/config");
+const config = require('../config/config');
 // Declare the Schema of the Mongo model
 const UserSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      trim: true,
-      required: true
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      index: true,
-      lowercase: true,
-      trim: true,
-      match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
-    },
-    age: {
-      type: Number,
-      required: true
-    },
-    password: {
-      type: String,
-      required: true
-    },
-    isChild: {
-      type: Boolean,
-      default: true
-    },
-    avatar: {
-      type: String
-    },
-    goals: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Goals"
-      }
-    ],
-    tasks: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Tasks"
-      }
-    ],
-    childs: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Users"
-      }
-    ],
-    scores: {
-      type: Number,
-      default: 0
-    },
-    token: {
-      type: String
-    },
-    facebookId: {
-      type: String
-    },
-    googleId: {
-      type: String
-    }
-  },
-  { timestamps: true }
+	{
+		name: {
+			type: String,
+			trim: true,
+			required: true,
+		},
+		email: {
+			type: String,
+			required: true,
+			unique: true,
+			index: true,
+			lowercase: true,
+			trim: true,
+			match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+		},
+		password: {
+			type: String,
+			required: true,
+		},
+		isChild: {
+			type: Boolean,
+			default: true,
+		},
+		avatar: {
+			type: String,
+		},
+		ads: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Ads',
+			},
+		],
+		token: {
+			type: String,
+		},
+		facebookId: {
+			type: String,
+		},
+		googleId: {
+			type: String,
+		},
+	},
+	{ timestamps: true },
 );
 
 UserSchema.methods.getPublicFields = function() {
-  const returnObject = {
-    userData: {
-      name: this.name,
-      age: this.age,
-      email: this.email,
-      isChild: this.isChild,
-      scores: this.scores,
-      avatar: this.avatar
-    },
-    token: this.token,
-    childs: this.childs,
-    tasks: this.tasks,
-    goals: this.goals
-  };
-  return returnObject;
+	const returnObject = {
+		userData: {
+			name: this.name,
+			email: this.email,
+			avatar: this.avatar,
+		},
+		token: this.token,
+		ads: this.goals,
+	};
+	return returnObject;
 };
 
 // Saves the user's password hashed (plain text password storage is not good)
-UserSchema.pre("save", function(next) {
-  const user = this;
-  if (this.isModified("password") || this.isNew) {
-    bcrypt.genSalt(10, function(err, salt) {
-      if (err) {
-        return next(err);
-      }
-      bcrypt.hash(user.password, salt, function(err, hash) {
-        if (err) {
-          return next(err);
-        }
-        user.password = hash;
-        next();
-      });
-    });
-  } else {
-    return next();
-  }
+UserSchema.pre('save', function(next) {
+	const user = this;
+
+	if (this.isModified('password') || this.isNew)
+		bcrypt.genSalt(10, (err, salt) => {
+			if (err) return next(err);
+
+			bcrypt.hash(user.password, salt, (err, hash) => {
+				if (err) return next(err);
+
+				user.password = hash;
+				next();
+			});
+		});
+	else return next();
 });
 
-UserSchema.pre("findOneAndUpdate", function(next) {
-  const update = this.getUpdate();
-  // Если обновляем пароль
-  // привет callback hell
-  if (update["$set"] && update["$set"].password) {
-    bcrypt
-      .hash(update["$set"].password, 10)
-      .then(hashedPassword => {
-        update["$set"].password = hashedPassword;
-        next();
-      })
-      .catch(err => next(err));
-  } else {
-    next();
-  }
+UserSchema.pre('findOneAndUpdate', function(next) {
+	const update = this.getUpdate();
+	// Если обновляем пароль
+	// привет callback hell
+	if (update.$set && update.$set.password)
+		bcrypt
+			.hash(update.$set.password, 10)
+			.then(hashedPassword => {
+				update.$set.password = hashedPassword;
+				next();
+			})
+			.catch(err => next(err));
+	else next();
 });
 
 // Create method to compare password input to password saved in database
 UserSchema.methods.comparePassword = function(pw, cb) {
-  bcrypt.compare(pw, this.password, function(err, isMatch) {
-    if (err) {
-      return cb(err);
-    }
-    return cb(null, isMatch);
-  });
+	bcrypt.compare(pw, this.password, (err, isMatch) => {
+		if (err) return cb(err);
+
+		return cb(null, isMatch);
+	});
 };
 
 UserSchema.methods.generateHash = function(password) {
-  return bcrypt.hashSync(password, bcrypt.genSalt(10), null);
+	return bcrypt.hashSync(password, bcrypt.genSalt(10), null);
 };
 
 UserSchema.methods.validatePassword = function(password) {
-  const compare = bcrypt.compareSync(password, this.password);
-  return compare;
+	const compare = bcrypt.compareSync(password, this.password);
+	return compare;
 };
 
 UserSchema.methods.getJWT = function() {
-  const preToken = jwt.sign(
-    {
-      id: this._id
-    },
-    config.JWT_SECRET_KEY
-  );
+	const preToken = jwt.sign(
+		{
+			id: this._id,
+		},
+		config.JWT_SECRET_KEY,
+	);
 
-  const token = `Bearer ${preToken}`;
+	const token = `Bearer ${preToken}`;
 
-  this.token = token;
-  this.save();
-  return token;
+	this.token = token;
+	this.save();
+	return token;
 };
 
-//Export the model
-module.exports = mongoose.model("Users", UserSchema);
+// Export the model
+module.exports = mongoose.model('Users', UserSchema);

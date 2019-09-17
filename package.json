@@ -7,7 +7,7 @@
 	"author": "Viktor Bulvarenko <viktor@bulvarenko.pw>",
 	"license": "MIT",
 	"scripts": {
-		"dev": "nodemon app.js"
+		"dev": "NODE_ENV=development nodemon bin/www"
 	},
 	"engines": {
 		"node": "10.16.0"

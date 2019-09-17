@@ -1,7 +1,7 @@
 const mode = process.env.NODE_ENV === 'production';
 
 module.exports = {
-	mongoURI: process.env.MONGO_DB_URI,
+	mongoURI: process.env.MONGO_DB_URL,
 	apiPATH: '/api',
 	apiVersion: '/v1',
 	PORT: process.env.PORT || 5002,
