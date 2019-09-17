@@ -72,7 +72,7 @@ const startServer = PORT => {
 
 	require('./services/passport')(passport);
 
-	app.use(express.static(path.join(__dirname, 'public')));
+	app.use('/public', express.static(path.join(__dirname, 'public')));
 
 	app.use(apiPATH + apiVersion, router);
 	app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
