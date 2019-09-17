@@ -1,10 +1,10 @@
 const mode = process.env.NODE_ENV === 'production';
 
 module.exports = {
-	mongoURI: process.env.MONGO_DB_URL,
+	mongoURL: process.env.MONGO_DB_URL,
 	apiPATH: '/api',
 	apiVersion: '/v1',
-	PORT: process.env.PORT || 5002,
+	PORT: process.env.PORT || 50011,
 	SERVER_URL_LOCAL: `http://localhost:${this.PORT}`,
 	SERVER_URL_PROD: '',
 	JWT_SECRET_KEY: 'Super secret key',
