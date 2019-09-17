@@ -90,6 +90,7 @@ const startServer = PORT => {
 		res.status(err.status || 500);
 		res.render('error');
 	});
+
 	app.listen(PORT, () => {
 		console.log(
 			`App listening on port ${chalk.yellow(`http://localhost:${PORT}`)} !`,

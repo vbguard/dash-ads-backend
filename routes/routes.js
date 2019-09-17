@@ -14,6 +14,7 @@ const passportCheck = passport.authenticate('jwt', {
 
 router
 	.use('/auth', authRouter)
+	.get('/ads/all', getAllAds)
 	.use('/ads', passportCheck, adsRouter)
 	.use('/user', userRouter)
 	.use('/categories', categoriesRouter)

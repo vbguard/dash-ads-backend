@@ -12,10 +12,12 @@ const createGoal = async (req, res) => {
 				.min(3)
 				.max(20)
 				.required(),
-			images: Joi.array().required(),
+			images: Joi.array(),
 			description: Joi.string()
 				.min(3)
-				.max(500)
+				.max(500),
+			category: Joi.array().required(),
+			exp: Joi.date()
 		})
 		.options({
 			stripUnknown: true,
@@ -40,7 +42,7 @@ const createGoal = async (req, res) => {
 		...validData
 	});
 
-	User.findByIdAndUpdate(req.user._id, { $push: { goals: newAds._id } })
+	User.findByIdAndUpdate(req.user._id, { $push: { ads: newAds._id } })
 		.then(updatedUser => {
 			if (updatedUser)
 				newAds
