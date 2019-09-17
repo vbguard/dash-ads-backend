@@ -1,6 +1,6 @@
 // add .env file see
 require('dotenv').config();
-const createError = require('http-errors');
+// const createError = require('http-errors');
 const express = require('express');
 const passport = require('passport');
 const session = require('express-session');
@@ -9,8 +9,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 const chalk = require('chalk');
-const helmet = require('helmet');
-const cors = require('cors');
+// const helmet = require('helmet');
+// const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 
 const swaggerDocument = require('./config/swagger.json');
@@ -50,8 +50,8 @@ const startServer = PORT => {
 			secret: 'super-secret-key',
 			resave: false,
 			saveUninitialized: false,
-			cookie: { maxAge: 60000 }
-		})
+			cookie: { maxAge: 60000 },
+		}),
 	);
 
 	// Set Secure to Server
@@ -63,8 +63,8 @@ const startServer = PORT => {
 			src: path.join(__dirname, 'public'),
 			dest: path.join(__dirname, 'public'),
 			indentedSyntax: true, // true = .sass and false = .scss
-			sourceMap: true
-		})
+			sourceMap: true,
+		}),
 	);
 
 	app.use(passport.initialize());
@@ -91,7 +91,9 @@ const startServer = PORT => {
 		res.render('error');
 	});
 	app.listen(PORT, () => {
-		console.log(`App listening on port ${chalk.yellow(`http://localhost:${PORT}`)} !`);
+		console.log(
+			`App listening on port ${chalk.yellow(`http://localhost:${PORT}`)} !`,
+		);
 		console.log(`Api route is ${chalk.blue(apiPATH + apiVersion)}`);
 	});
 };

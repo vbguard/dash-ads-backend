@@ -24,10 +24,6 @@ const UserSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		isChild: {
-			type: Boolean,
-			default: true,
-		},
 		avatar: {
 			type: String,
 		},

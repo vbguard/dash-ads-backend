@@ -5,7 +5,7 @@ const connectDB = dbUrl => {
 		.connect(dbUrl, {
 			useNewUrlParser: true,
 			useCreateIndex: true,
-			useFindAndModify: false
+			useFindAndModify: false,
 		})
 		.then(() => {
 			console.log('MongoDB Connected...');
