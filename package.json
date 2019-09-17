@@ -2,12 +2,13 @@
 	"name": "RESTful-API-boilerplate",
 	"version": "1.0.0",
 	"description": "Template for quick start write RESTful API",
-	"main": "app.js",
+	"main": "index.js",
 	"repository": "git@github.com:vbguard/RESTful-API-boilerplate.git",
 	"author": "Viktor Bulvarenko <viktor@bulvarenko.pw>",
 	"license": "MIT",
 	"scripts": {
-		"dev": "NODE_ENV=development nodemon bin/www"
+		"bin": "nodemon bin/www",
+		"dev": "nodemon index.js"
 	},
 	"engines": {
 		"node": "10.16.0"
@@ -35,9 +36,11 @@
 		"@babel/preset-react": "7.0.0",
 		"@sendgrid/mail": "^6.4.0",
 		"bcrypt": "^3.0.6",
+		"chalk": "^2.4.2",
 		"config": "3.2.2",
 		"cookie-parser": "1.4.4",
 		"cors": "2.8.5",
+		"debug": "^4.1.1",
 		"dotenv": "8.0.0",
 		"express": "4.17.1",
 		"express-react-views": "0.11.0",
@@ -45,6 +48,7 @@
 		"helmet": "3.19.0",
 		"http-errors": "1.7.3",
 		"joi": "^14.3.1",
+		"jsonwebtoken": "^8.5.1",
 		"mongoose": "5.6.6",
 		"node-sass-middleware": "0.11.0",
 		"passport": "0.4.0",
@@ -56,7 +60,6 @@
 		"qs": "6.7.0",
 		"react": "16.8.6",
 		"react-dom": "16.8.6",
-		"swagger-ui-express": "4.0.7",
-		"jsonwebtoken": "^8.5.1"
+		"swagger-ui-express": "4.0.7"
 	}
 }
