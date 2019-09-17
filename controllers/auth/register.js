@@ -11,7 +11,7 @@ const userSignup = (req, res) => {
 		.keys({
 			email: Joi.string()
 				.regex(
-					/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+					/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 				)
 				.required(),
 			password: Joi.string()
@@ -22,11 +22,11 @@ const userSignup = (req, res) => {
 				.min(3)
 				.max(16)
 				.required(),
-			avatar: Joi.string(),
+			avatar: Joi.string()
 		})
 		.options({
 			stripUnknown: true,
-			abortEarly: false,
+			abortEarly: false
 		});
 
 	const result = schema.validate(req.body);
@@ -34,18 +34,17 @@ const userSignup = (req, res) => {
 	if (result.error) throw new ValidationError(result.error.message);
 
 	const sendError = error => {
-		const errMessage =
-			error.message || 'must handle this error on registration';
+		const errMessage = error.message || 'must handle this error on registration';
 		res.json({
 			status: 'error',
-			error: errMessage,
+			error: errMessage
 		});
 	};
 
 	const newUser = new User({
 		email,
 		password,
-		name,
+		name
 	});
 
 	newUser
