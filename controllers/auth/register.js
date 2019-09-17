@@ -34,8 +34,8 @@ const userSignup = (req, res) => {
 	if (result.error) throw new ValidationError(result.error.message);
 
 	const sendError = error => {
-		const errMessage
-			= error.message || 'must handle this error on registration';
+		const errMessage =
+			error.message || 'must handle this error on registration';
 		res.json({
 			status: 'error',
 			error: errMessage,
