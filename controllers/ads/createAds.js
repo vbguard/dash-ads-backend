@@ -17,11 +17,11 @@ const createGoal = async (req, res) => {
 				.min(3)
 				.max(500),
 			category: Joi.array().required(),
-			exp: Joi.date(),
+			exp: Joi.date()
 		})
 		.options({
 			stripUnknown: true,
-			abortEarly: false,
+			abortEarly: false
 		});
 
 	const result = schema.validate(req.body);
@@ -31,7 +31,7 @@ const createGoal = async (req, res) => {
 	const sendResponse = ads => {
 		res.json({
 			status: 'success',
-			ads,
+			ads
 		});
 	};
 
@@ -39,7 +39,7 @@ const createGoal = async (req, res) => {
 
 	const newAds = new Ads({
 		userId: req.user._id,
-		...validData,
+		...validData
 	});
 
 	User.findByIdAndUpdate(req.user._id, { $push: { ads: newAds._id } })
