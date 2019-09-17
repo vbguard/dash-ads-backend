@@ -5,7 +5,7 @@ const { ValidationError } = require('../../core/error');
 
 // Register New User and Check this email have in DB
 const userSignup = (req, res) => {
-	const { email, password, name, age } = req.body;
+	const { email, password, name, phone } = req.body;
 
 	const schema = Joi.object()
 		.keys({
@@ -23,6 +23,11 @@ const userSignup = (req, res) => {
 				.max(16)
 				.required(),
 			avatar: Joi.string(),
+			phone: Joi.number()
+				.min(10)
+				.max(12)
+				.example('380981234567, 0981234567')
+				.required(),
 		})
 		.options({
 			stripUnknown: true,
@@ -46,6 +51,7 @@ const userSignup = (req, res) => {
 		email,
 		password,
 		name,
+		phone,
 	});
 
 	newUser

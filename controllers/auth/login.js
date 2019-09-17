@@ -9,21 +9,23 @@ const userLogin = (req, res) => {
 			email: Joi.string().regex(
 				/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
 			),
+			phone: Joi.number()
+				.regex(/\(?([0-9]{3})\)?([ -]?)([0-9]{3})\2([0-9]{4})/)
+				.min(10)
+				.max(12),
 			password: Joi.string()
 				.min(6)
-				.max(16),
+				.max(16)
+				.required(),
 		})
 		.options({
-			presence: 'required',
 			stripUnknown: true,
 			abortEarly: false,
 		});
 
 	const result = schema.validate(req.body);
 
-	if (result.error) 
-		throw new ValidationError(result.error.message);
-	
+	if (result.error) throw new ValidationError(result.error.message);
 
 	const sendResponse = user => {
 		res.json({
@@ -57,9 +59,8 @@ const userLogin = (req, res) => {
 					session: false,
 				},
 				err => {
-					if (err) 
-						res.send(err);
-					
+					if (err) res.send(err);
+
 					sendResponse(user);
 				},
 			);

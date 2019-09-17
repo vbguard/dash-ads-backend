@@ -13,11 +13,11 @@
   "schemes": ["https", "http"],
   "servers": [
     {
-      "url": "https://dash-ads.goit.co.ua/api",
+      "url": "https://dash-ads.goit.co.ua/api/v1",
       "description": "The production API server"
     },
     {
-      "url": "http://localhost:50011/api",
+      "url": "http://localhost:50011/api/v1",
       "description": "The production API server"
     }
   ],
