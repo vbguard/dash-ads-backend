@@ -23,22 +23,32 @@
     },
     "ecmaVersion": 2018
   },
-  "plugins": ["node"],
+  "plugins": ["node", "prettier"],
   "rules": {
-    "prettier/prettier": "error",
     "no-commonjs": "off",
     "import/no-commonjs": "off",
     "space-before-function-paren": "off",
+    "object-curly-spacing": 0,
     "template-curly-spacing": "off",
     "import/no-nodejs-modules": "off",
-    "semi":"off",
-    "comma-dangle":"off",
+    "semi": "off",
+    "comma-dangle": "off",
     "sort-imports": "error",
     "no-unused-vars": "warn",
     "no-console": "off",
     "func-names": "off",
     "no-process-exit": "off",
     "object-shorthand": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "node/no-unpublished-require": [
+      "error",
+      {
+        "convertPath": {
+          "src/**/*.jsx": ["^src/(.+?)\\.jsx$", "lib/$1.js"]
+        },
+        "tryExtensions": [".js", ".jsx", ".json"],
+        "allowModules": ["morgan"]
+      }
+    ]
   }
 }
