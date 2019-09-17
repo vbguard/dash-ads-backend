@@ -57,6 +57,7 @@ const UserSchema = new mongoose.Schema(
 UserSchema.methods.getPublicFields = function() {
 	const returnObject = {
 		userData: {
+			userId: this._id,
 			name: this.name,
 			email: this.email,
 			avatar: this.avatar,

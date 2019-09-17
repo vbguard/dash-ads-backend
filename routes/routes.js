@@ -7,13 +7,13 @@ const userRouter = require('./user.router');
 const { getAllAds } = require('../controllers/ads');
 
 const passportCheck = passport.authenticate('jwt', {
-	session: false
+	session: false,
 });
 
 router
 	.use('/auth', authRouter)
+	.get('/ads/all', getAllAds)
 	.use('/ads', passportCheck, adsRouter)
-	.use('/user', userRouter)
-	.get('/ads/all', getAllAds);
+	.use('/user', userRouter);
 
 module.exports = router;

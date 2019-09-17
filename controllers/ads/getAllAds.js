@@ -1,40 +1,54 @@
 const Ads = require('../../models/ads.model.js');
 const { ValidationError } = require('../../core/error');
 
-const getAllAds = (req, res) => {
+const getAllAds = async (req, res) => {
+	const { search, date, alphabet, limit, page } = req.query;
+
 	const sendResponse = ads => {
 		res.json({
 			status: 'success',
-			ads
+			ads,
 		});
 	};
 
 	const sendError = error => {
-		const errMessage = error.message || 'must handle this error on registration';
+		const errMessage =
+			error.message || 'must handle this error on registration';
 		res.json({
 			status: 'error',
-			error: errMessage
+			error: errMessage,
 		});
 	};
 
-	Ads.find(
-		{},
-		{
-			__v: 0,
-			updatedAt: 0,
-			userId: 0
+	const searchFilter = search
+		? { title: { $regex: search, $options: 'i' } }
+		: null;
+
+	const options = {
+		page: page || 1,
+		limit: limit || 10,
+	};
+
+	Ads.paginate(searchFilter, options, (err, result) => {
+		// result.docs
+		// result.totalDocs = 100
+		// result.limit = 10
+		// result.page = 1
+		// result.totalPages = 10
+		// result.hasNextPage = true
+		// result.nextPage = 2
+		// result.hasPrevPage = false
+		// result.prevPage = null
+		// result.pagingCounter = 1
+		if (err) return sendError(err);
+
+		if (!result) {
+			sendError({ message: 'no such goal' });
+			return;
 		}
-	)
-		.then(ads => {
-			if (!ads) {
-				sendError({ message: 'no such goal' });
-				return;
-			}
-			sendResponse(ads);
-		})
-		.catch(err => {
-			throw new ValidationError(err.message);
-		});
+
+		sendResponse(result);
+	});
 };
 
 module.exports = getAllAds;

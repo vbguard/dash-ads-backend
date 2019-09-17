@@ -10,7 +10,7 @@ const userLogin = (req, res) => {
 				/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
 			),
 			phone: Joi.number()
-				.regex(/\(?([0-9]{3})\)?([ -]?)([0-9]{3})\2([0-9]{4})/)
+				// .regex(/\(?([0-9]{3})\)?([ -]?)([0-9]{3})\2([0-9]{4})/)
 				.min(10)
 				.max(12),
 			password: Joi.string()
@@ -30,7 +30,7 @@ const userLogin = (req, res) => {
 	const sendResponse = user => {
 		res.json({
 			status: 'success',
-			user,
+			...user,
 		});
 	};
 
