@@ -22,12 +22,7 @@ const userSignup = (req, res) => {
 				.min(3)
 				.max(16)
 				.required(),
-			avatar: Joi.string(),
-			phone: Joi.number()
-				.min(10)
-				.max(12)
-				.example('380981234567, 0981234567')
-				.required()
+			avatar: Joi.string()
 		})
 		.options({
 			stripUnknown: true,
@@ -49,8 +44,7 @@ const userSignup = (req, res) => {
 	const newUser = new User({
 		email,
 		password,
-		name,
-		phone
+		name
 	});
 
 	newUser

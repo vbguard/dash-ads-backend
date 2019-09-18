@@ -7,26 +7,25 @@ const getAllAds = async (req, res) => {
 	const sendResponse = ads => {
 		res.json({
 			status: 'success',
-			ads,
+			ads
 		});
 	};
 
 	const sendError = error => {
-		const errMessage =
-			error.message || 'must handle this error on registration';
+		const errMessage = error.message || 'must handle this error on registration';
 		res.json({
 			status: 'error',
-			error: errMessage,
+			error: errMessage
 		});
 	};
 
-	const searchFilter = search
-		? { title: { $regex: search, $options: 'i' } }
-		: null;
+	const searchFilter = search ? { title: { $regex: search,
+$options: 'i' },
+isActive: true } : { isActive: true };
 
 	const options = {
 		page: page || 1,
-		limit: limit || 10,
+		limit: limit || 10
 	};
 
 	Ads.paginate(searchFilter, options, (err, result) => {
