@@ -72,7 +72,10 @@ module.exports = function(passport) {
 									},
 								])
 									.then(result => {
+										result.getJWT();
+
 										const userData = result.getPublicFields();
+
 										return cb(null, userData, {
 											message: 'Logged In Successfully',
 										});

@@ -5,7 +5,9 @@ const notFound = require('../controllers/ssr/notFound.controller');
 router
 	// .use('/auth', authRouter)
 	// .use('/ads', passportCheck, adsRouter)
-	// .use('/user', userRouter)
+	.get('/', (req, res) => {
+		res.render('index');
+	})
 	.get('*', notFound);
 
 module.exports = router;

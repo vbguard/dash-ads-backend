@@ -5,13 +5,13 @@ const { ValidationError } = require('../../core/error');
 
 // Register New User and Check this email have in DB
 const userSignup = (req, res) => {
-	const { email, password, name, age } = req.body;
+	const { email, password, name, phone } = req.body;
 
 	const schema = Joi.object()
 		.keys({
 			email: Joi.string()
 				.regex(
-					/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+					/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 				)
 				.required(),
 			password: Joi.string()
@@ -23,10 +23,15 @@ const userSignup = (req, res) => {
 				.max(16)
 				.required(),
 			avatar: Joi.string(),
+			phone: Joi.number()
+				.min(10)
+				.max(12)
+				.example('380981234567, 0981234567')
+				.required()
 		})
 		.options({
 			stripUnknown: true,
-			abortEarly: false,
+			abortEarly: false
 		});
 
 	const result = schema.validate(req.body);
@@ -34,11 +39,10 @@ const userSignup = (req, res) => {
 	if (result.error) throw new ValidationError(result.error.message);
 
 	const sendError = error => {
-		const errMessage =
-			error.message || 'must handle this error on registration';
+		const errMessage = error.message || 'must handle this error on registration';
 		res.json({
 			status: 'error',
-			error: errMessage,
+			error: errMessage
 		});
 	};
 
@@ -46,6 +50,7 @@ const userSignup = (req, res) => {
 		email,
 		password,
 		name,
+		phone
 	});
 
 	newUser

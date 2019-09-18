@@ -27,6 +27,14 @@ const UserSchema = new mongoose.Schema(
 		avatar: {
 			type: String,
 		},
+		phone: {
+			type: Number,
+			required: true,
+			trim: true,
+			unique: true,
+			index: true,
+			match: /\(?([0-9]{3})\)?([ -]?)([0-9]{3})\2([0-9]{4})/,
+		},
 		ads: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
@@ -49,6 +57,7 @@ const UserSchema = new mongoose.Schema(
 UserSchema.methods.getPublicFields = function() {
 	const returnObject = {
 		userData: {
+			userId: this._id,
 			name: this.name,
 			email: this.email,
 			avatar: this.avatar,

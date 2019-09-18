@@ -1,4 +1,5 @@
 const mongoose = require('mongoose'); // Erase if already required
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 // Declare the Schema of the Mongo model
 const AdsSchema = new mongoose.Schema(
@@ -6,15 +7,21 @@ const AdsSchema = new mongoose.Schema(
 		title: {
 			type: String,
 			required: true,
+			index: true,
 		},
 		description: {
 			type: String,
 		},
 		images: [ String ],
-		isDone: {
-			type: Boolean,
-			default: false,
+		exp: {
+			type: Date,
 		},
+		category: [
+			{
+				type: mongoose.Schema.Types.Number,
+				ref: 'Categories',
+			},
+		],
 		userId: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'Users',
@@ -29,10 +36,14 @@ AdsSchema.methods.getPublicFields = function() {
 		images: this.images,
 		description: this.description,
 		createdAt: this.createdAt,
-		_id: this._id,
+		exp: this.exp,
+		category: this.category,
+		adsId: this._id,
 	};
 	return returnObject;
 };
+
+AdsSchema.plugin(mongoosePaginate);
 
 // Export the model
 module.exports = mongoose.model('Ads', AdsSchema);
