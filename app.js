@@ -10,7 +10,7 @@ const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
 const chalk = require('chalk');
 // const helmet = require('helmet');
-// const cors = require('cors');
+const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 
 const swaggerDocument = require('./config/swagger.json');
@@ -50,21 +50,21 @@ const startServer = PORT => {
 			secret: 'super-secret-key',
 			resave: false,
 			saveUninitialized: false,
-			cookie: { maxAge: 60000 },
-		}),
+			cookie: { maxAge: 60000 }
+		})
 	);
 
 	// Set Secure to Server
 	app.disable('x-powered-by');
-	// app.use(cors('*'));
+	app.use(cors('*'));
 	// app.use(helmet());
 	app.use(
 		sassMiddleware({
 			src: path.join(__dirname, 'public'),
 			dest: path.join(__dirname, 'public'),
 			indentedSyntax: true, // true = .sass and false = .scss
-			sourceMap: true,
-		}),
+			sourceMap: true
+		})
 	);
 
 	app.use(passport.initialize());
@@ -92,9 +92,7 @@ const startServer = PORT => {
 	});
 
 	app.listen(PORT, () => {
-		console.log(
-			`App listening on port ${chalk.yellow(`http://localhost:${PORT}`)} !`,
-		);
+		console.log(`App listening on port ${chalk.yellow(`http://localhost:${PORT}`)} !`);
 		console.log(`Api route is ${chalk.blue(apiPATH + apiVersion)}`);
 	});
 };
