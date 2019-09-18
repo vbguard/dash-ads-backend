@@ -30,6 +30,8 @@ const AdsSchema = new mongoose.Schema(
 	{ timestamps: true },
 );
 
+// AdsSchema.index('title', 'text');
+
 AdsSchema.methods.getPublicFields = function() {
 	const returnObject = {
 		title: this.title,
