@@ -7,30 +7,36 @@ const AdsSchema = new mongoose.Schema(
 		title: {
 			type: String,
 			required: true,
-			index: true,
+			index: true
 		},
 		description: {
-			type: String,
+			type: String
 		},
 		images: [ String ],
-		exp: {
-			type: Date,
+		expDate: {
+			type: Date
 		},
-		category: [
-			{
-				type: mongoose.Schema.Types.Number,
-				ref: 'Categories',
-			},
-		],
+		isActive: {
+			type: Boolean,
+			default: true
+		},
+		category: {
+			type: mongoose.Schema.Types.Number,
+			ref: 'Categories'
+		},
+		price: {
+			type: Number
+		},
+		phone: {
+			type: String
+		},
 		userId: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'Users',
-		},
+			ref: 'Users'
+		}
 	},
-	{ timestamps: true },
+	{ timestamps: true }
 );
-
-// AdsSchema.index('title', 'text');
 
 AdsSchema.methods.getPublicFields = function() {
 	const returnObject = {
@@ -40,7 +46,7 @@ AdsSchema.methods.getPublicFields = function() {
 		createdAt: this.createdAt,
 		exp: this.exp,
 		category: this.category,
-		adsId: this._id,
+		adsId: this._id
 	};
 	return returnObject;
 };

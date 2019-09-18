@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema(
 		name: {
 			type: String,
 			trim: true,
-			required: true,
+			required: true
 		},
 		email: {
 			type: String,
@@ -18,40 +18,32 @@ const UserSchema = new mongoose.Schema(
 			index: true,
 			lowercase: true,
 			trim: true,
-			match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+			match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 		},
 		password: {
 			type: String,
-			required: true,
+			required: true
 		},
 		avatar: {
-			type: String,
-		},
-		phone: {
-			type: Number,
-			required: true,
-			trim: true,
-			unique: true,
-			index: true,
-			match: /\(?([0-9]{3})\)?([ -]?)([0-9]{3})\2([0-9]{4})/,
+			type: String
 		},
 		ads: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				ref: 'Ads',
-			},
+				ref: 'Ads'
+			}
 		],
 		token: {
-			type: String,
+			type: String
 		},
 		facebookId: {
-			type: String,
+			type: String
 		},
 		googleId: {
-			type: String,
-		},
+			type: String
+		}
 	},
-	{ timestamps: true },
+	{ timestamps: true }
 );
 
 UserSchema.methods.getPublicFields = function() {
@@ -60,10 +52,10 @@ UserSchema.methods.getPublicFields = function() {
 			userId: this._id,
 			name: this.name,
 			email: this.email,
-			avatar: this.avatar,
+			avatar: this.avatar
 		},
 		token: this.token,
-		ads: this.goals,
+		ads: this.goals
 	};
 	return returnObject;
 };
@@ -122,9 +114,9 @@ UserSchema.methods.validatePassword = function(password) {
 UserSchema.methods.getJWT = function() {
 	const preToken = jwt.sign(
 		{
-			id: this._id,
+			id: this._id
 		},
-		config.JWT_SECRET_KEY,
+		config.JWT_SECRET_KEY
 	);
 
 	const token = `Bearer ${preToken}`;
