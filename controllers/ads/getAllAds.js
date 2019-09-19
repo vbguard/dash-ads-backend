@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 /* eslint-disable prettier/prettier */
 const Ads = require('../../models/ads.model.js');
+const Categories = require('../../models/categories.model');
 const { ValidationError } = require('../../core/error');
 
 const getAllAds = async (req, res) => {
@@ -33,7 +34,7 @@ $options: 'i' };
 		limit: limit || 10
 	};
 
-	Ads.paginate(searchFilter, options, (err, result) => {
+	Ads.paginate(searchFilter, options, async (err, result) => {
 		// result.docs
 		// result.totalDocs = 100
 		// result.limit = 10
@@ -50,6 +51,10 @@ $options: 'i' };
 			sendError({ message: 'no such goal' });
 			return;
 		}
+		const categories = await Categories.find({}, { __v: 0,
+createdAt: 0,
+updatedAt: 0 });
+		result.categories = categories;
 
 		sendResponse(result);
 	});
