@@ -1,8 +1,10 @@
+/* eslint-disable indent */
+/* eslint-disable prettier/prettier */
 const Ads = require('../../models/ads.model.js');
 const { ValidationError } = require('../../core/error');
 
 const getAllAds = async (req, res) => {
-	const { search, date, alphabet, limit, page } = req.query;
+	const { search, date, alphabet, limit, page, category } = req.query;
 
 	const sendResponse = ads => {
 		res.json({
@@ -19,9 +21,12 @@ const getAllAds = async (req, res) => {
 		});
 	};
 
-	const searchFilter = search ? { title: { $regex: search,
-$options: 'i' },
-isActive: true } : { isActive: true };
+	const searchFilter = { isActive: true };
+
+	if (category) searchFilter.category = category;
+
+	if (search) searchFilter.title = { $regex: search,
+$options: 'i' };
 
 	const options = {
 		page: page || 1,

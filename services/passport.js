@@ -1,5 +1,6 @@
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user.model');
+const Categories = require('../models/categories.model');
 const config = require('../config/config');
 
 // const GoogleStrategy = require("passport-google-oauth20").Strategy;
@@ -26,38 +27,38 @@ module.exports = function(passport) {
 				return done(null, false);
 				// or you could create a new account
 			});
-		}),
+		})
 	);
 
 	passport.use(
 		new LocalStrategy(
 			{
 				usernameField: 'email',
-				passwordField: 'password',
+				passwordField: 'password'
 			},
 			(email, password, cb) =>
 				// Assume there is a DB module providing a global UserModel
 				User.findOne(
 					{
-						email,
+						email
 					},
 					{
 						facebookId: 0,
-						googleId: 0,
-					},
+						googleId: 0
+					}
 				)
 					.then(user => {
 						// console.log("localSTR :", user);
 
 						if (!user)
 							return cb(null, false, {
-								message: 'Incorrect email or password.',
+								message: 'Incorrect email or password.'
 							});
 
 						user.comparePassword(password, (err, isMatch) => {
 							if (!isMatch)
 								return cb(null, false, {
-									message: 'Incorrect email or password.',
+									message: 'Incorrect email or password.'
 								});
 
 							if (isMatch && !err)
@@ -67,17 +68,21 @@ module.exports = function(passport) {
 										model: 'Ads',
 										select: {
 											userId: 0,
-											__v: 0,
-										},
-									},
+											__v: 0
+										}
+									}
 								])
-									.then(result => {
+									.then(async result => {
+										const categories = await Categories.find({}, { __v: 0,
+createdAt: 0,
+updatedAt: 0 });
+
 										result.getJWT();
-
 										const userData = result.getPublicFields();
-
+										userData.ads = result.ads;
+										userData.categories = categories;
 										return cb(null, userData, {
-											message: 'Logged In Successfully',
+											message: 'Logged In Successfully'
 										});
 									})
 									.catch(err => {
@@ -86,8 +91,8 @@ module.exports = function(passport) {
 									});
 						});
 					})
-					.catch(err => cb(err)),
-		),
+					.catch(err => cb(err))
+		)
 	);
 
 	// passport.use(
