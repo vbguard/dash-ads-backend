@@ -6,7 +6,7 @@ const adsRouter = require('./ads.router');
 const userRouter = require('./user.router');
 const categoriesRouter = require('./categories.router');
 
-const { getAllAds } = require('../controllers/ads');
+const { getAllAds, getAdsById } = require('../controllers/ads');
 
 const passportCheck = passport.authenticate('jwt', {
 	session: false
@@ -15,6 +15,7 @@ const passportCheck = passport.authenticate('jwt', {
 router
 	.use('/auth', authRouter)
 	.get('/ads/all', getAllAds)
+	.get('/ads/:id', getAdsById)
 	.use('/ads', passportCheck, adsRouter)
 	.use('/user', userRouter)
 	.use('/categories', categoriesRouter)
