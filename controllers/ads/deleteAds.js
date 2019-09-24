@@ -9,22 +9,21 @@ const deleteAds = (req, res) => {
 
 	const sendResponse = () => {
 		res.json({
-			status: 'success',
+			status: 'success'
 		});
 	};
 
 	const sendError = error => {
-		const errMessage
-			= error.message || 'must handle this error on registration';
+		const errMessage = error.message || 'must handle this error on registration';
 		res.json({
 			status: 'error',
-			error: errMessage,
+			error: errMessage
 		});
 	};
 
 	Ads.findByIdAndDelete({
 		userId,
-		_id: adsId,
+		_id: adsId
 	})
 		.then(ads => {
 			if (!ads) sendError({ message: 'No such goal' });

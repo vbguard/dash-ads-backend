@@ -17,7 +17,9 @@ const createGoal = async (req, res) => {
 				.min(3)
 				.max(500),
 			category: Joi.number().required(),
-			exp: Joi.date()
+			exp: Joi.date(),
+			phone: Joi.string(),
+			price: Joi.number().required()
 		})
 		.options({
 			stripUnknown: true,

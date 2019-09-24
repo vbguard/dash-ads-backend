@@ -13,7 +13,10 @@ const updateAds = (req, res) => {
 			images: Joi.array(),
 			description: Joi.string()
 				.min(1)
-				.max(500)
+				.max(500),
+			price: Joi.number(),
+			phone: Joi.string(),
+			category: Joi.number()
 		})
 		.options({
 			stripUnknown: true,
