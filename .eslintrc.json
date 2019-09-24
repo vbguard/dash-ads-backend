@@ -20,6 +20,7 @@
 	},
 	"plugins": ["node", "prettier"],
 	"rules": {
+    "array-bracket-spacing": 0,
 		"no-commonjs": "off",
 		"import/no-commonjs": "off",
 		"space-before-function-paren": "off",
