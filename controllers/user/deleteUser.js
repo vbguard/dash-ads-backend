@@ -7,16 +7,15 @@ const deleteUser = (req, res) => {
 	const sendResponse = result => {
 		res.json({
 			status: 'success',
-			result,
+			result
 		});
 	};
 
 	const sendError = error => {
-		const errMessage
-			= error.message || 'must handle this error on registration';
+		const errMessage = error.message || 'must handle this error on registration';
 		res.json({
 			status: 'error',
-			error: errMessage,
+			error: errMessage
 		});
 	};
 

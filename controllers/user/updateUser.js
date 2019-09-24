@@ -6,7 +6,7 @@ const updateUser = (req, res) => {
 	const schema = Joi.object()
 		.keys({
 			email: Joi.string().regex(
-				/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+				/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 			),
 			password: Joi.string()
 				.min(6)
@@ -17,11 +17,11 @@ const updateUser = (req, res) => {
 			avatar: Joi.string(),
 			facebookId: Joi.string(),
 			googleId: Joi.string(),
-			ads: Joi.array(),
+			ads: Joi.array()
 		})
 		.options({
 			stripUnknown: true,
-			abortEarly: false,
+			abortEarly: false
 		});
 
 	const result = schema.validate(req.body);
@@ -31,16 +31,15 @@ const updateUser = (req, res) => {
 	const sendResponse = user => {
 		res.json({
 			status: 'success',
-			user,
+			user
 		});
 	};
 
 	const sendError = error => {
-		const errMessage =
-			error.message || 'must handle this error on registration';
+		const errMessage = error.message || 'must handle this error on registration';
 		res.json({
 			status: 'error',
-			error: errMessage,
+			error: errMessage
 		});
 	};
 

@@ -1,3 +1,4 @@
+/* eslint-disable consistent-this */
 const mongoose = require('mongoose'); // Erase if already required
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -41,7 +42,13 @@ const UserSchema = new mongoose.Schema(
 		},
 		googleId: {
 			type: String
-		}
+		},
+		favorites: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Ads'
+			}
+		]
 	},
 	{ timestamps: true }
 );
@@ -55,7 +62,8 @@ UserSchema.methods.getPublicFields = function() {
 			avatar: this.avatar
 		},
 		token: this.token,
-		ads: this.goals
+		ads: this.ads,
+		favorites: this.favorites
 	};
 	return returnObject;
 };

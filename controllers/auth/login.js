@@ -7,7 +7,7 @@ const userLogin = (req, res) => {
 	const schema = Joi.object()
 		.keys({
 			email: Joi.string().regex(
-				/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+				/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
 			),
 			phone: Joi.number()
 				// .regex(/\(?([0-9]{3})\)?([ -]?)([0-9]{3})\2([0-9]{4})/)
@@ -16,11 +16,11 @@ const userLogin = (req, res) => {
 			password: Joi.string()
 				.min(6)
 				.max(16)
-				.required(),
+				.required()
 		})
 		.options({
 			stripUnknown: true,
-			abortEarly: false,
+			abortEarly: false
 		});
 
 	const result = schema.validate(req.body);
@@ -30,7 +30,7 @@ const userLogin = (req, res) => {
 	const sendResponse = user => {
 		res.json({
 			status: 'success',
-			...user,
+			...user
 		});
 	};
 
@@ -38,14 +38,14 @@ const userLogin = (req, res) => {
 		const errMessage = error.message || 'must handle this error on login';
 		res.status(400).json({
 			status: 'error',
-			error: errMessage,
+			error: errMessage
 		});
 	};
 
 	passport.authenticate(
 		'local',
 		{
-			session: false,
+			session: false
 		},
 		(err, user, info) => {
 			if (err || !user) {
@@ -56,15 +56,15 @@ const userLogin = (req, res) => {
 			req.login(
 				user,
 				{
-					session: false,
+					session: false
 				},
 				err => {
 					if (err) res.send(err);
 
 					sendResponse(user);
-				},
+				}
 			);
-		},
+		}
 	)(req, res);
 };
 
