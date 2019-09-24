@@ -8,5 +8,6 @@ module.exports = {
 	restorePassword,
 	updateUser,
 	deleteUser,
-	addFavorite
+	addFavorite,
+	deleteFavorite
 };
