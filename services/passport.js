@@ -70,17 +70,31 @@ module.exports = function(passport) {
 											userId: 0,
 											__v: 0
 										}
+									},
+									{
+										path: 'favorites',
+										model: 'Ads',
+										select: {
+											userId: 0,
+											__v: 0
+										}
 									}
 								])
 									.then(async result => {
-										const categories = await Categories.find({}, { __v: 0,
-createdAt: 0,
-updatedAt: 0 });
+										const categories = await Categories.find(
+											{},
+											{
+												__v: 0,
+												createdAt: 0,
+												updatedAt: 0
+											}
+										);
 
 										result.getJWT();
 										const userData = result.getPublicFields();
 										userData.ads = result.ads;
 										userData.categories = categories;
+										userData.favorites = result.favorites;
 										return cb(null, userData, {
 											message: 'Logged In Successfully'
 										});
