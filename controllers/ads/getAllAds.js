@@ -32,7 +32,7 @@ $options: 'i' };
 	const options = {
 		page: page || 1,
     limit: limit || 10,
-    sort: { createdAt: 1 }
+    sort: { createdAt: -1 }
 	};
 
 	Ads.paginate(searchFilter, options, async (err, result) => {

@@ -3,7 +3,7 @@ const { ValidationError } = require('../../core/error');
 const Joi = require('joi');
 
 const updateAds = (req, res) => {
-	const goalId = req.params.goalId;
+	const adsId = req.params.adsId;
 
 	const schema = Joi.object()
 		.keys({
@@ -13,11 +13,11 @@ const updateAds = (req, res) => {
 			images: Joi.array(),
 			description: Joi.string()
 				.min(1)
-				.max(500),
+				.max(500)
 		})
 		.options({
 			stripUnknown: true,
-			abortEarly: false,
+			abortEarly: false
 		});
 
 	const result = schema.validate(req.body);
@@ -29,16 +29,15 @@ const updateAds = (req, res) => {
 	const sendResponse = ads => {
 		res.json({
 			status: 'success',
-			ads,
+			ads
 		});
 	};
 
 	const sendError = error => {
-		const errMessage
-			= error.message || 'must handle this error on registration';
+		const errMessage = error.message || 'must handle this error on registration';
 		res.json({
 			status: 'error',
-			error: errMessage,
+			error: errMessage
 		});
 	};
 
@@ -49,7 +48,7 @@ const updateAds = (req, res) => {
 		return;
 	}
 
-	Ads.findByIdAndUpdate(ads, { $set: validData }, { new: true })
+	Ads.findByIdAndUpdate(adsId, { $set: validData }, { new: true })
 		.then(ads => {
 			if (!ads) {
 				sendError({ message: 'no such goal' });
