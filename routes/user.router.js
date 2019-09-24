@@ -13,7 +13,7 @@ router
 	.delete('/', passportCheck, deleteUser)
 	.put('/', passportCheck, updateUser)
 	.post('/restore', restorePassword)
-	.put('/:adsId', passportCheck, addFavorite)
-	.delete('/:adsId', passportCheck, deleteFavorite);
+	.put('/favorite/:adsId', passportCheck, addFavorite)
+	.delete('/favorite/:adsId', passportCheck, deleteFavorite);
 
 module.exports = router;
