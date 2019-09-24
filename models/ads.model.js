@@ -44,9 +44,11 @@ AdsSchema.methods.getPublicFields = function() {
 		images: this.images,
 		description: this.description,
 		createdAt: this.createdAt,
-		exp: this.exp,
+		updatedAt: this.updatedAt,
+		expDate: this.expDate,
 		category: this.category,
-		adsId: this._id
+		adsId: this._id,
+		price: this.price
 	};
 	return returnObject;
 };
