@@ -12,7 +12,7 @@ const AdsSchema = new mongoose.Schema(
 		description: {
 			type: String
 		},
-		images: [ String ],
+		images: [String],
 		expDate: {
 			type: Date
 		},
