@@ -1,7 +1,14 @@
 const router = require('express').Router();
 const passport = require('passport');
 
-const { restorePassword, updateUser, deleteUser, addFavorite, deleteFavorite } = require('../controllers/user');
+const {
+	restorePassword,
+	getFavorites,
+	updateUser,
+	deleteUser,
+	addFavorite,
+	deleteFavorite
+} = require('../controllers/user');
 
 const passportCheck = passport.authenticate('jwt', {
 	session: false
@@ -14,6 +21,7 @@ router
 	.put('/', passportCheck, updateUser)
 	.post('/restore', restorePassword)
 	.put('/favorite/:adsId', passportCheck, addFavorite)
-	.delete('/favorite/:adsId', passportCheck, deleteFavorite);
+	.delete('/favorite/:adsId', passportCheck, deleteFavorite)
+	.get('/favorites', passportCheck, getFavorites);
 
 module.exports = router;
