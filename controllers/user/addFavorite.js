@@ -12,16 +12,26 @@ const addFavorite = (req, res) => {
 		});
 	};
 
-	User.findOneAndUpdate({ _id: userId }, { $push: { favorite: adsId } }, { new: true })
+	User.findOneAndUpdate({ _id: userId }, { $push: { favorites: adsId } }, { new: true })
 		.then(user => {
-			user
-				.populate('favorite')
-				.then(favorites => {
-					sendResponse({ favorite: favorites.favorites });
+			if (user)
+				User.findOne({
+					_id: userId
 				})
-				.catch(err => {
-					throw new ValidationError(err.message);
-				});
+					.populate({
+						path: 'favorites',
+						select: {
+							__v: 0,
+							userId: 0,
+							updatedAt: 0
+						}
+					})
+					.then(user => {
+						sendResponse({ favorites: user.favorites });
+					})
+					.catch(err => {
+						throw new ValidationError(err.message);
+					});
 		})
 		.catch(err => {
 			throw new ValidationError(err.message);
