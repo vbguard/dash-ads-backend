@@ -9,11 +9,6 @@ const CategoriesSchema = new mongoose.Schema(
 			trim: true,
 			unique: true,
 			index: true
-		},
-		_id: {
-			type: Number,
-			unique: true,
-			index: true
 		}
 	},
 	{
@@ -24,7 +19,7 @@ const CategoriesSchema = new mongoose.Schema(
 CategoriesSchema.methods.getPublicFields = function() {
 	const returnObject = {
 		category: this.category,
-		id: this.id
+		id: this._id
 	};
 	return returnObject;
 };

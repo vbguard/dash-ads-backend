@@ -8,6 +8,6 @@ router
 	.get('/', (req, res) => {
 		res.render('index');
 	})
-	.get('*', notFound);
+	.use(notFound);
 
 module.exports = router;
