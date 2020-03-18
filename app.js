@@ -5,7 +5,32 @@ const fastifyCors = require('fastify-cors');
 const { JWT_SECRET_KEY, URL } = require('./config/config');
 
 // Require the framework and instantiate it
-const app = require('fastify')({ logger: true });
+const app = require('fastify')({
+	logger: {
+		prettyPrint: false,
+		serializers: {
+			res(res) {
+				// The default
+				return {
+					statusCode: res.statusCode
+				};
+			},
+			req(req) {
+				return {
+					method: req.method,
+					url: req.url,
+					path: req.path,
+					parameters: req.parameters,
+					// Including the headers in the log could be in violation
+					// of privacy laws, e.g. GDPR. You should use the "redact" option to
+					// remove sensitive fields. It could also leak authentication data in
+					// the logs.
+					headers: req.headers
+				};
+			}
+		}
+	}
+});
 
 app
 	.register(fastifyCors, {
