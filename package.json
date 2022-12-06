@@ -58,7 +58,7 @@
 		"passport-google-oauth20": "^2.0.0",
 		"passport-jwt": "^4.0.0",
 		"passport-local": "^1.0.0",
-		"qs": "6.7.0",
+		"qs": "6.7.3",
 		"react": "16.8.6",
 		"react-dom": "16.8.6",
 		"swagger-ui-express": "4.0.7"
